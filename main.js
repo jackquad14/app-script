@@ -1,5 +1,5 @@
 function criarTriggerAgenda() {
-  // Remove triggers antigos da mesma função (evita duplicação)
+  // Remove triggers antigos da mesma funcao (evita duplicacao)
   const triggers = ScriptApp.getProjectTriggers();
 
   triggers.forEach(trigger => {
@@ -22,7 +22,7 @@ function sincronizarAgenda() {
   const abaAtual = obterOuCriarAba(CONFIG.ABAS.ATUAL);
   const abaHistorico = obterOuCriarAba(CONFIG.ABAS.HIST);
 
-  // 🔹 Garantir headers
+  // Garantir headers
   const headersAtual = garantirHeader(abaAtual, HEADERS);
   const headersHist = garantirHeader(abaHistorico, HEADERS_HIST);
 
@@ -38,7 +38,7 @@ function sincronizarAgenda() {
   const dadosAtuais = abaAtual.getDataRange().getValues();
   const mapaAtual = {};
 
-  // 🔹 Mapear por ID
+  // Mapear por ID
   for (let i = 1; i < dadosAtuais.length; i++) {
     const linha = dadosAtuais[i];
     const id = linha[mapaAtualCol["ID"]];
@@ -73,26 +73,26 @@ function sincronizarAgenda() {
     const dadosObj = {
       "ID": id,
       "Título": evento.getTitle(),
-      "Tipo Reunião": extrairTipoReuniao(evento.getTitle()),
+      "Tipo Reuniao": extrairTipoReuniao(evento.getTitle()),
       "Treinador": extrairTreinadores(evento.getTitle()),
-      "Início": inicioEvento,
+      "Inocio": inicioEvento,
       "Fim": fimEvento,
 
-      // 🔹 NOVOS CAMPOS
+      // NOVOS CAMPOS
       "Data": new Date(inicioEvento.getFullYear(), inicioEvento.getMonth(), inicioEvento.getDate()),
       "Ano": getAno(inicioEvento),
-      "Mês": getMes(inicioEvento),
-      "Ano-Mês": getAnoMes(inicioEvento),
+      "Mes": getMes(inicioEvento),
+      "Ano-Mes": getAnoMes(inicioEvento),
       "Semana": getSemanaAno(inicioEvento),
       "Dia Semana": getDiaSemana(inicioEvento),
 
       "Criado em": criado,
-      "Última atualização": ultimaAtualizacao,
-      "Mesmo dia": mesmoDia ? "SIM" : "NÃO",
-      "Horas antecedência": horasAntecedencia,
-      "Classificação": classificacao,
-      "Duração (M)": duracao,
-      "Duração (H)": duracao / 60,
+      "Ultima atualizacao": ultimaAtualizacao,
+      "Mesmo dia": mesmoDia ? "SIM" : "NAO",
+      "Horas antecedencia": horasAntecedencia,
+      "Classificacao": classificacao,
+      "Duracao (M)": duracao,
+      "Duracao (H)": duracao / 60,
       "Organizador": organizador,
       "Participantes": participantes
     };
@@ -102,7 +102,7 @@ function sincronizarAgenda() {
     const existente = mapaAtual[id];
 
     if (!existente) {
-      // 🟢 NOVO
+      // NOVO
       abaAtual.appendRow(novaLinha);
 
       const histLinha = montarLinha(mapaHistCol, {
@@ -122,7 +122,7 @@ function sincronizarAgenda() {
       const mudou = mudancas.length > 0;
 
       if (mudou) {
-        // monta descrição das mudanças
+        // monta descricao das mudancas
         const descricaoMudancas = mudancas.map(m =>
           `${m.campo}: "${m.de}" → "${m.para}"`
         ).join(" | ");
@@ -130,13 +130,13 @@ function sincronizarAgenda() {
         const histLinha = montarLinha(mapaHistCol, {
           "Data Log": new Date(),
           "Tipo": "ALTERADO",
-          "Alterações": descricaoMudancas, // 👈 NOVO CAMPO
+          "Alterações": descricaoMudancas, // NOVO CAMPO
           ...dadosObj
         });
 
         abaHistorico.appendRow(histLinha);
 
-        // atualiza só se mudou
+        // atualiza so se mudou
         abaAtual.getRange(existente.index, 1, 1, novaLinha.length)
           .setValues([novaLinha]);
       }
@@ -144,7 +144,7 @@ function sincronizarAgenda() {
     }
   });
 
-  // 🔴 EXCLUÍDOS (corrigido)
+  // EXCLUIDOS (corrigido)
   const idsParaExcluir = Object.keys(mapaAtual)
     .filter(id => !mapaAtual[id].visto)
     // ordena de baixo pra cima (evita bug ao deletar linhas)
