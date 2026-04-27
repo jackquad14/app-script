@@ -124,7 +124,7 @@ function sincronizarAgenda() {
       if (mudou) {
         // monta descricao das mudancas
         const descricaoMudancas = mudancas.map(m =>
-          `${m.campo}: "${m.de}" → "${m.para}"`
+          `${m.campo}: "${m.de}" -> "${m.para}"`
         ).join(" | ");
 
         const histLinha = montarLinha(mapaHistCol, {
