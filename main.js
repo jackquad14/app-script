@@ -72,7 +72,7 @@ function sincronizarAgenda() {
 
     const dadosObj = {
       "ID": id,
-      "Título": evento.getTitle(),
+      "Titulo": evento.getTitle(),
       "Tipo Reuniao": extrairTipoReuniao(evento.getTitle()),
       "Treinador": extrairTreinadores(evento.getTitle()),
       "Inocio": inicioEvento,
