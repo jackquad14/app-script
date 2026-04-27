@@ -130,7 +130,7 @@ function sincronizarAgenda() {
         const histLinha = montarLinha(mapaHistCol, {
           "Data Log": new Date(),
           "Tipo": "ALTERADO",
-          "Alterações": descricaoMudancas, // NOVO CAMPO
+          "Alteracoes": descricaoMudancas, // NOVO CAMPO
           ...dadosObj
         });
 
